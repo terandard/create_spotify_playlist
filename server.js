@@ -35,6 +35,8 @@ var spotifyApi = new SpotifyWebApi({
   clientSecret: client_secret
 });
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser());
@@ -136,6 +138,25 @@ app.get('/album', function(req, res) {
   });
 
 });
+
+app.post('/search', function(req, res) {
+  console.log(req.body)
+  var q_track = req.body.track ? 'track:'+req.body.track+' ' : '';
+  var q_artist = req.body.artist ? 'artist:'+req.body.artist : '';
+
+  var q = q_track + q_artist;
+
+  spotifyApi.searchTracks(q)
+    .then(function(data) {
+      console.log(data.body);
+      res.send(data.body);
+
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
+
+});
+
 
 console.log('Listening on 8080');
 app.listen(8080);
