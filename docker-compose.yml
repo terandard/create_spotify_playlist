@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  express:
+    build: ./backend/.
+    container_name: express-container
+    hostname: express-server
+    tty: true
+    environment:
+      - NODE_ENV=DEVELOPMENT
+      - PORT=8080
+    volumes:
+      - ./backend/app:/usr/src/app
+      - express-data:/usr/src/app/node_modules
+    ports:
+      - 8080:8080
+    working_dir: /usr/src/app
+    command: npm run dev
+
+  next:
+    build: ./frontend/.
+    container_name: next-container
+    hostname: next-server
+    tty: true
+    environment:
+      - NODE_ENV=DEVELOPMENT
+      - PORT=3000
+    volumes:
+      - ./frontend/app:/usr/src/app
+    ports:
+      - 3000:3000
+    working_dir: /usr/src/app
+    command: npm run dev
+
+volumes:
+  express-data:
+    name: express-data
