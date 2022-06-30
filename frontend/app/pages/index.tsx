@@ -1,9 +1,14 @@
-import type { NextPage } from 'next'
+import type { NextPage, InferGetStaticPropsType, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useCallback } from 'react'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ loginPath }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const login = useCallback(() => {
+      window.location.href = loginPath;
+    }, [loginPath]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,6 +21,10 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <button onClick={login}>
+            Sign in with Spotify
+        </button>
 
         <p className={styles.description}>
           Get started by editing{' '}
@@ -68,5 +77,19 @@ const Home: NextPage = () => {
     </div>
   )
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  // https://accounts.spotify.com/authorizeへのリクエストパラメータに必要な項目を設定
+  const scopes = ['streaming', 'user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private'];
+  const params = new URLSearchParams();
+  params.append('client_id', process.env.CLIENT_ID || '');
+  params.append('response_type', 'code');
+  params.append('redirect_uri', process.env.REDIRECT_URI || '');
+  params.append('scope', scopes.join(' '));
+  params.append('state', 'state');
+  return {
+      props: { loginPath: `https://accounts.spotify.com/authorize?${params.toString()}` }
+  }
+};
 
 export default Home
