@@ -35,7 +35,7 @@ const authorize = async (req: NextApiRequest, res: NextApiResponse) => {
         accessToken: response.data.access_token,
     };
     await req.session.save();
-    res.status(200).redirect('/');
+    res.status(200).redirect('/user');
 };
 
 export default withIronSessionApiRoute(authorize, ironOptions);
