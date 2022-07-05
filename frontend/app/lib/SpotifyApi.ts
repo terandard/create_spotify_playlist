@@ -58,4 +58,25 @@ export class SpotifyApi {
             return error.response.data;
         });
     }
+
+    async searchItem(query: string){
+      return await axios.get(
+        `${this.base_url}/search?${query}`,
+        { headers: this.headers }
+      ).then((res) => {
+        var track_responses = res.data.tracks.items.map((d) => {
+          return {
+            track_id: d.id,
+            track_name: d.name,
+            artist_name: d.artists[0].name,
+            artist_id: d.artists[0].id,
+          }
+        });
+        return track_responses;
+      }).catch((error) => {
+          return error.response.data;
+      });
+
+
+    }
 }
