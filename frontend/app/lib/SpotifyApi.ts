@@ -64,19 +64,9 @@ export class SpotifyApi {
         `${this.base_url}/search?${query}`,
         { headers: this.headers }
       ).then((res) => {
-        var track_responses = res.data.tracks.items.map((d) => {
-          return {
-            track_id: d.id,
-            track_name: d.name,
-            artist_name: d.artists[0].name,
-            artist_id: d.artists[0].id,
-          }
-        });
-        return track_responses;
+        return res.data.tracks.items;
       }).catch((error) => {
           return error.response.data;
       });
-
-
     }
 }
