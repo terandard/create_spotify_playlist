@@ -7,7 +7,14 @@ import { ironOptions } from '../../lib/config';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const access_token: string = req.session.user.accessToken;
     const spotifyApi = new SpotifyApi(access_token);
-    const tracks = await spotifyApi.searchItem("q=track:BEK+artist:SHADOWS&type=track");
+
+    var query: string = "q=";
+    var q_track = req.body.trackKeyword ? 'track:' + req.body.trackKeyword : '';
+    var q_artist = req.body.artist ? '+artist:' + req.body.artist : '';
+
+    query += q_track + q_artist + "&type=track";
+
+    const tracks = await spotifyApi.searchItem(query);
     res.status(200).json({ tracks })
 }
 

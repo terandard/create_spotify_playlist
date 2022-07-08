@@ -9,10 +9,25 @@ const SearchTrack = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchItems = async (e: FormEvent<HTMLFormElement>) => {
+        if (!trackKeyword && !artist) {
+            alert('please enter query');
+            return
+        }
         e.preventDefault();
         setIsLoading(true);
 
-        const response = await fetch('/api/search');
+        const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                trackKeyword: trackKeyword,
+                artist: artist
+            }),
+        }
+
+        const response = await fetch('/api/search', options);
         const result = await response.json();
         const res_tracks :Array<SpotifyApiTrack> = result.tracks;
         setTracks(
