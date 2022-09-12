@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SpotifyPlaylist } from '../types/playlist';
 
 export type UserInfo = {
     country: string,
@@ -69,4 +70,29 @@ export class SpotifyApi {
           return error.response.data;
       });
     }
+
+    async getPlaylist(playlist_id: string) {
+      return await axios.get(
+        `${this.base_url}/playlists/${playlist_id}`,
+        { headers: this.headers }
+      ).then((res) => {
+        var data: SpotifyPlaylist = res.data;
+        return data;
+      }).catch((error) => {
+        return error.response.data;
+      });
+    }
+
+    async getUserPlaylists() {
+      return await axios.get(
+        `${this.base_url}/me/playlists`,
+        { headers: this.headers }
+      ).then((res) => {
+        var playlists: Array<SpotifyPlaylist> = res.data.items;
+        return playlists;
+      }).catch((error) => {
+        return error.response.data;
+      });
+    }
+
 }
