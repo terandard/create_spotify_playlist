@@ -1,35 +1,6 @@
 import axios from 'axios';
+import { UserInfo } from '../types/userinfo';
 import { SpotifyPlaylist } from '../types/playlist';
-
-export type UserInfo = {
-    country: string,
-    display_name: string,
-    email: string,
-    explicit_content: {
-      filter_enabled: boolean,
-      filter_locked: boolean
-    },
-    external_urls: {
-      spotify: string
-    },
-    followers: {
-      href: string,
-      total: number
-    },
-    href: string,
-    id: string,
-    images: [
-      {
-        url: string,
-        height: number,
-        width: number
-      }
-    ],
-    product: string,
-    type: string,
-    uri: string
-}
-
 
 export class SpotifyApi {
 
@@ -50,14 +21,15 @@ export class SpotifyApi {
     }
 
     async getUserInfo() {
-        return await axios.get(
-            `${this.base_url}/me`,
-            { headers: this.headers }
-        ).then((res) => {
-            return res.data;
-        }).catch((error) => {
-            return error.response.data;
-        });
+      return await axios.get(
+        `${this.base_url}/me`,
+        { headers: this.headers }
+      ).then((res) => {
+        var data: UserInfo = res.data;
+        return data;
+      }).catch((error) => {
+        return error.response.data;
+      });
     }
 
     async searchItem(query: string){
