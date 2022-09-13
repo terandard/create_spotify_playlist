@@ -12,6 +12,6 @@ module.exports = {
     return config
   },
   images: {
-    domains: ['mosaic.scdn.co']
+    domains: ['mosaic.scdn.co', 'i.scdn.co']
   }
 }

@@ -1,5 +1,6 @@
 import React, {useState, FormEvent} from "react";
 import { SpotifyApiTrack, Track } from "../types/track";
+import Images from "../components/images";
 
 const SearchTrack = () => {
 
@@ -57,11 +58,12 @@ const SearchTrack = () => {
             </form>
 
             <div>
-                <ul>
-                    {tracks.map((t) => (
-                        <li key={t.id}>{t.name}</li>
-                    ))}
-                </ul>
+                {tracks.map((t) => (
+                    <div key={t.id}>
+                        <p>{t.name}</p>
+                        <Images images={t.album.images} description={t.album.name} />
+                    </div>
+                ))}
             </div>
         </main>
     )
