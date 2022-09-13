@@ -1,3 +1,5 @@
+import { SpotifyImage } from "./image"
+
 export interface SpotifyPlaylist {
     collaborative: boolean,
     description: string,
@@ -10,13 +12,7 @@ export interface SpotifyPlaylist {
     },
     href: string,
     id: string,
-    images: [
-        {
-            url: string,
-            height: number,
-            width: number
-        }
-    ],
+    images: Array<SpotifyImage>,
     name: string,
     owner: {
         external_urls: {
