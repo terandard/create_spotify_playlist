@@ -3,6 +3,7 @@ import { ironOptions } from "../../lib/config";
 import { SpotifyApi } from "../../lib/SpotifyApi";
 import { SpotifyPlaylist } from "../../types/playlist";
 import Images from "../../components/images";
+import Link from 'next/link'
 
 type PropsData = {
     userPlaylists: Array<SpotifyPlaylist>
@@ -15,7 +16,9 @@ export default function ShowUserPlaylists(props: PropsData) {
             <div>
                 {props.userPlaylists.map((p) => (
                     <div key={p.id}>
-                        <p>{p.name}</p>
+                        <Link href={"/playlist/"+p.id}>
+                            {p.name}
+                        </Link>
                         <Images images={p.images} description={p.name}/>
                     </div>
                 ))}
