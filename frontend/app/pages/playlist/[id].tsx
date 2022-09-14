@@ -15,6 +15,16 @@ export default function DetailPlaylist({playlist}: PropsData) {
         <main>
             <h2>{playlist.name}</h2>
             <Images images={playlist.images} description={playlist.name}/>
+            {playlist.tracks.items.map((i) => (
+                <div key={i.track.id}>
+                    <p>{i.track.name}</p>
+                    <p>
+                        {i.track.artists.map((a) => (
+                            <span key={a.id}>{a.name}</span>
+                        ))}
+                    </p>
+                </div>
+            ))}
         </main>
     )
 
@@ -30,8 +40,6 @@ export const getServerSideProps = withIronSessionSsr(
         const props: PropsData = {
             playlist: playlist,
         }
-
-        console.log(playlist.tracks.items)
 
         return { props: props }
     }, ironOptions
