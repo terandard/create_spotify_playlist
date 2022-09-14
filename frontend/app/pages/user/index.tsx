@@ -2,6 +2,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "../../lib/config";
 import { SpotifyApi } from "../../lib/SpotifyApi";
 import { UserInfo } from "../../types/userinfo";
+import Images from "../../components/images";
 
 type PropsData = {
     userInfo: UserInfo
@@ -14,7 +15,7 @@ export default function ShowUserInfo(props: PropsData) {
             <h1>Logged in as {user_info.display_name}</h1>
             <div className="media">
                 <div className="pull-left">
-                    <img className="media-object" width="150" src="{{images.0.url}}" />
+                    <Images images={user_info.images} description={user_info.display_name}/>
                 </div>
                 <div className="media-body">
                     <dl className="dl-horizontal">
