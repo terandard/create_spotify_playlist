@@ -1,4 +1,5 @@
 import { SpotifyImage } from "./image"
+import { SpotifyApiTrack } from "./track"
 
 export interface SpotifyPlaylist {
     collaborative: boolean,
@@ -33,7 +34,20 @@ export interface SpotifyPlaylist {
     tracks: {
         href: string,
         items: [
-            {}
+            {
+                added_at: Date,
+                added_by: {
+                    external_urls: [{ spotify: string }],
+                    href: string,
+                    id: string,
+                    type: string,
+                    uri: string
+                },
+                is_local: boolean,
+                primary_color: string,
+                track: SpotifyApiTrack,
+                video_thumbnail: { url: string }
+            }
         ],
         limit: number,
         next: string,
