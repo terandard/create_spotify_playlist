@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { UserInfo } from '../types/userinfo';
-import { SpotifyPlaylist } from '../types/playlist';
+import { 
+  SpotifyPlaylist, CreateSpotifyPlaylistParam, 
+  AddItemToSpotifyPlaylistParam 
+} from '../types/playlist';
 
 export class SpotifyApi {
 
@@ -62,6 +65,42 @@ export class SpotifyApi {
       ).then((res) => {
         var playlists: Array<SpotifyPlaylist> = res.data.items;
         return playlists;
+      }).catch((error) => {
+        return error.response.data;
+      });
+    }
+
+    async createUserPlaylist(param: CreateSpotifyPlaylistParam) {
+      let data = {
+        name: param.playlist_name,
+        public: param.public,
+        collaborative: param.collaborative,
+        description: param.description
+      }
+      return await axios.post(
+        `${this.base_url}/users/${param.user_id}/playlists`,
+        data,
+        { headers: this.headers }
+      ).then((res) => {
+        var playlists: SpotifyPlaylist = res.data;
+        return playlists;
+      }).catch((error) => {
+        return error.response.data;
+      });
+    }
+
+    async addItemToPlaylist(param: AddItemToSpotifyPlaylistParam) {
+      let data = {
+        position: param.position,
+        uris: param.uris
+      }
+      return await axios.post(
+        `${this.base_url}/playlists/${param.playlist_id}/tracks`,
+        data,
+        { headers: this.headers }
+      ).then((res) => {
+        var snapshot_id: string = res.data;
+        return snapshot_id;
       }).catch((error) => {
         return error.response.data;
       });
