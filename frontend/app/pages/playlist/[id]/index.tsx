@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next'
 import { withIronSessionSsr } from "iron-session/next";
-import { ironOptions } from "../../lib/config";
-import { SpotifyApi } from "../../lib/SpotifyApi";
-import { SpotifyPlaylist } from '../../types/playlist';
-import Images from "../../components/images";
+import { ironOptions } from "../../../lib/config";
+import { SpotifyApi } from "../../../lib/SpotifyApi";
+import { SpotifyPlaylist } from '../../../types/playlist';
+import Images from "../../../components/images";
 
 type PropsData = {
     playlist: SpotifyPlaylist
