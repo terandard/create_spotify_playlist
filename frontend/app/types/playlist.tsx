@@ -58,3 +58,19 @@ export interface SpotifyPlaylist {
     type: string,
     uri: string
 }
+
+export type CreateSpotifyPlaylistParam = {
+    user_id: string,
+    playlist_name: string,
+    public: boolean,
+    collaborative: boolean,
+    description: string
+}
+
+export type AddItemToSpotifyPlaylistParam = {
+    playlist_id: string,
+    position: number,
+    // 配列だが複数曲追加する際はカンマ区切りで1つの文字列として渡す
+    // e.g. "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M"
+    uris: Array<string>
+}
