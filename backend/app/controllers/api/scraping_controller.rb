@@ -1,8 +1,7 @@
 class Api::ScrapingController < ApplicationController
     def index
-        data = {
-            hoge: params[:url]
-        }
-        render json: {status: :ok, data: data}
+        # e.g. params[:url] = events/1420946
+        result = Playlist.new(params[:url]).to_json
+        render json: {status: :ok, data: result}
     end
 end
