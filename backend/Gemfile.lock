@@ -69,6 +69,7 @@ GEM
     bootsnap (1.13.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    childprocess (3.0.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     debug (1.6.2)
@@ -146,6 +147,10 @@ GEM
     rake (13.0.6)
     reline (0.3.1)
       io-console (~> 0.5)
+    rubyzip (2.3.2)
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
     strscan (3.0.4)
     thor (1.2.1)
     timeout (0.3.0)
@@ -166,6 +171,7 @@ DEPENDENCIES
   pg (~> 1.4.3)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  selenium-webdriver (~> 3.142, >= 3.142.2)
   tzinfo-data
 
 RUBY VERSION
