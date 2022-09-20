@@ -37,7 +37,7 @@ export class SpotifyApi {
 
     async searchItem(query: string){
       return await axios.get(
-        `${this.base_url}/search?${query}`,
+        encodeURI(`${this.base_url}/search?${query}`),
         { headers: this.headers }
       ).then((res) => {
         return res.data.tracks.items;
