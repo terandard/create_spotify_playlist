@@ -27,7 +27,7 @@ class Playlist
         re = Regexp.new('top: (\d+)px')
         tracks = {}
         parent_element.find_elements(:class, 'rnd').each do |e|
-            key = re.match(e.attribute('style'))[1]
+            key = re.match(e.attribute('style'))[1].to_i
             track = e.find_element(:class, 'ttl').text
             tracks[key] = track
         end
