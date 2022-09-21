@@ -20,6 +20,7 @@ class Playlist
         @event_subtitle = parent_element.find_element(:id, 'eventSubTitle').attribute("value")
 
         @tracks = extract_tracks(parent_element)
+        driver.quit
     end
 
     def extract_tracks(parent_element)
