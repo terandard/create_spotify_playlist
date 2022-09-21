@@ -1,5 +1,5 @@
 import { SpotifyImage } from "./image"
-import { SpotifyApiTrack } from "./track"
+import { SpotifyApiTrack, Track } from "./track"
 
 export interface SpotifyPlaylist {
     collaborative: boolean,
@@ -73,4 +73,10 @@ export type AddItemToSpotifyPlaylistParam = {
     // 配列だが複数曲追加する際はカンマ区切りで1つの文字列として渡す
     // e.g. "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M"
     uris: Array<string>
+}
+
+export type PlaylistFromScraping = {
+    event_title: string,
+    event_subtitle: string,
+    tracks: Array<Track>
 }
