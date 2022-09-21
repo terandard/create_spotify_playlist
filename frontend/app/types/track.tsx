@@ -2,7 +2,7 @@ import { SpotifyImage } from "./image"
 
 export type Track = Pick<
     SpotifyApiTrack,
-    "album" | "artists" | "id" | "name" | "href"
+    "album" | "artists" | "id" | "name" | "href" | "uri"
 >
 
 export interface SpotifyApiTrack {

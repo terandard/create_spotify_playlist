@@ -38,7 +38,8 @@ const SearchTrack = () => {
                     artists: t.artists,
                     id: t.id,
                     name: t.name,
-                    href: t.href
+                    href: t.href,
+                    uri: t.uri
                 }
             })
         )
