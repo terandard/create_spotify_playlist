@@ -18,19 +18,20 @@ const handler =  async (req: NextApiRequest, res: NextApiResponse) => {
   let search_query: string;
 
   // 取得した曲を検索
-  let tracks: Array<Track> = await Promise.all(data.tracks.map(async (t) => {
+  let tracks: Track[] = [];
+  for (const t of data.tracks) {
     search_query = "q=track:" + t + "+artist:" + data.artist + "&type=track";
     let search_result: Array<SpotifyApiTrack> = await spotifyApi.searchItem(search_query);
+    if (!search_result[0]) continue
     let first_track: Track = pickupTrackFromApi(search_result[0])
-    return first_track
-  }))
+    tracks.push(first_track)
+  }
 
   const setlist_result: PlaylistFromScraping = {
     event_title: data.event_title,
     event_subtitle: data.event_subtitle,
     tracks: tracks
   }
-  console.log(setlist_result)
 
   res.status(200).json(setlist_result)
 }
