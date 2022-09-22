@@ -28,7 +28,7 @@ class Playlist
         tracks = {}
         parent_element.find_elements(:class, 'rnd').each do |e|
             key = re.match(e.attribute('style'))[1].to_i
-            track = e.find_element(:class, 'ttl').text
+            track = e.find_element(:class, 'ttl').attribute("textContent")
             tracks[key] = track
         end
 
