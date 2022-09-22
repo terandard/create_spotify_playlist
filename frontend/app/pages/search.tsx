@@ -1,6 +1,7 @@
 import React, {useState, FormEvent} from "react";
 import { SpotifyApiTrack, Track } from "../types/track";
 import Images from "../components/images";
+import Loading from "../components/loading";
 
 const SearchTrack = () => {
 
@@ -50,6 +51,7 @@ const SearchTrack = () => {
     
     return (
         <main>
+            <Loading isLoading={isLoading} />
             <form onSubmit={(e) => fetchItems(e)}>
                 <label>track:</label>
                 <input type="text" value={trackKeyword} onChange={(e) => setTrackKeyword(e.target.value)} />
