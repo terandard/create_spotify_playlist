@@ -3,6 +3,7 @@ require 'selenium-webdriver'
 class Playlist
     def initialize(url)
         @url = 'https://www.livefans.jp/' + url
+        @status = :ok
         scraping
     end
 
@@ -14,19 +15,27 @@ class Playlist
 
         driver = Selenium::WebDriver.for :chrome, options: options
         driver.get(@url)
+        track_elements = driver.find_elements(:css, '.rnd')
+
+        if track_elements.blank?
+            @status = :not_found
+            driver.quit
+            return
+        end
+
         parent_element = driver.find_element(:css, '.setBlock')
         @artist = parent_element.find_element(:id, 'eventEventArtistName').attribute("value")
         @event_title = parent_element.find_element(:id, 'eventTitle').attribute("value")
         @event_subtitle = parent_element.find_element(:id, 'eventSubTitle').attribute("value")
 
-        @tracks = extract_tracks(parent_element)
+        @tracks = extract_tracks(track_elements)
         driver.quit
     end
 
-    def extract_tracks(parent_element)
+    def extract_tracks(track_elements)
         re = Regexp.new('top: (\d+)px')
         tracks = {}
-        parent_element.find_elements(:class, 'rnd').each do |e|
+        track_elements.each do |e|
             key = re.match(e.attribute('style'))[1].to_i
             track = e.find_element(:class, 'ttl').attribute("textContent")
             tracks[key] = track
@@ -42,5 +51,9 @@ class Playlist
             event_subtitle: @event_subtitle,
             tracks: @tracks
         }
+    end
+
+    def get_status
+        @status
     end
 end
