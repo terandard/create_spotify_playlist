@@ -33,6 +33,7 @@ const authorize = async (req: NextApiRequest, res: NextApiResponse) => {
 
     req.session.user = {
         accessToken: response.data.access_token,
+        id: ""
     };
     await req.session.save();
     res.status(200).redirect('/user');

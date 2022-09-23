@@ -3,15 +3,14 @@ import { SpotifyApi } from '../../lib/SpotifyApi';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../lib/config';
 import { SpotifyPlaylist, CreateSpotifyPlaylistParam } from '../../types/playlist'
-import { UserInfo } from "../../types/userinfo";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const access_token: string = req.session.user.accessToken;
+    const user_id: string = req.session.user.id;
     const spotifyApi = new SpotifyApi(access_token);
-    const userinfo: UserInfo = await spotifyApi.getUserInfo();
 
     let param: CreateSpotifyPlaylistParam = {
-        user_id: userinfo.id,
+        user_id: user_id,
         playlist_name: req.body.name,
         public: true,
         collaborative: false,

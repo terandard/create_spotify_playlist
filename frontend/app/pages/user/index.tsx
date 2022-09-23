@@ -43,6 +43,9 @@ export const getServerSideProps = withIronSessionSsr(
         userInfo: userinfo,
       }
 
+      req.session.user.id = userinfo.id;
+      await req.session.save();
+
       return { props: props }
     }, ironOptions
   );
