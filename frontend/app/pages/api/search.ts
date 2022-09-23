@@ -9,8 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const spotifyApi = new SpotifyApi(access_token);
 
     var query: string = "q=";
-    var q_track = req.body.trackKeyword ? 'track:' + req.body.trackKeyword : '';
-    var q_artist = req.body.artist ? '+artist:' + req.body.artist : '';
+    var q_track = req.body.trackKeyword ? ' ' + req.body.trackKeyword : '';
+    var q_artist = req.body.artist ? ' ' + req.body.artist : '';
 
     query += q_track + q_artist + "&type=track";
 

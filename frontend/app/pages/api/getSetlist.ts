@@ -20,7 +20,7 @@ const handler =  async (req: NextApiRequest, res: NextApiResponse) => {
   // 取得した曲を検索
   let tracks: Track[] = [];
   for (const t of data.tracks) {
-    search_query = "q=track:" + t + "+artist:" + data.artist + "&type=track";
+    search_query = "q= " + t + " " + data.artist + "&type=track";
     let search_result: Array<SpotifyApiTrack> = await spotifyApi.searchItem(search_query);
     if (!search_result[0]) continue
     let first_track: Track = pickupTrackFromApi(search_result[0])
