@@ -3,6 +3,7 @@ import { ironOptions } from "../../lib/config";
 import { SpotifyApi } from "../../lib/SpotifyApi";
 import { SpotifyPlaylist } from "../../types/playlist";
 import Images from "../../components/images";
+import Header from "../../components/header";
 import Link from 'next/link'
 
 type PropsData = {
@@ -12,6 +13,7 @@ type PropsData = {
 export default function ShowUserPlaylists(props: PropsData) {
     return (
         <main>
+            <Header />
             <h2>プレイリスト一覧</h2>
             <div>
                 {props.userPlaylists.map((p) => (
