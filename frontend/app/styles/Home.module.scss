@@ -15,12 +15,10 @@
 .link {
   color: #0070f3;
   text-decoration: none;
-}
 
-.link:hover,
-.link:focus,
-.link:active {
-  text-decoration: underline;
+  &:hover, &:focus, &:active {
+    text-decoration: underline;
+  }
 }
 
 .title {
@@ -31,13 +29,6 @@
   text-align: center
 }
 
-.button__wrapper {
-  margin-top: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 .button {
   width: 200px;
   height: 60px;
@@ -45,8 +36,15 @@
   background-color: #1ed760;
   border-radius: 500px;
   border: none;
-}
 
-.button:hover {
-  background-color: #1fdf64;
+  &:hover {
+    background-color: #1fdf64;
+  }
+
+  &__wrapper{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

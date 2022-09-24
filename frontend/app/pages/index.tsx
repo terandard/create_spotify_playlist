@@ -1,6 +1,6 @@
 import type { NextPage, InferGetStaticPropsType, GetStaticProps } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 import { useCallback } from 'react'
 
 const Home: NextPage = ({ loginPath }: InferGetStaticPropsType<typeof getStaticProps>) => {
