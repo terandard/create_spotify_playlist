@@ -8,6 +8,7 @@ const SearchTrack = () => {
     const [tracks, setTracks] = useState<Array<Track>>([]);
     const [trackKeyword, setTrackKeyword] = useState<string>("");
     const [artist, setArtist] = useState<string>("");
+    const [errorMsg, setErrorMsg] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchItems = async (e: FormEvent<HTMLFormElement>) => {
@@ -29,23 +30,36 @@ const SearchTrack = () => {
             }),
         }
 
-        const response = await fetch('/api/search', options);
-        const result = await response.json();
-        const res_tracks :Array<SpotifyApiTrack> = result.tracks;
-        setTracks(
-            res_tracks.map<Track>((t) => {
-                return {
-                    album: t.album,
-                    artists: t.artists,
-                    id: t.id,
-                    name: t.name,
-                    href: t.href,
-                    uri: t.uri
-                }
-            })
-        )
-        setIsLoading(false);
+        const response = await fetch('/api/search', options)
+            .then(res => res.json());
 
+        if (response.status == 200) {
+            const res_tracks :Array<SpotifyApiTrack> = response.data;
+            if (res_tracks.length == 0) {
+                setErrorMsg("曲が見つかりませんでした。")
+            } else {
+                setTracks(
+                    res_tracks.map<Track>((t) => {
+                        return {
+                            album: t.album,
+                            artists: t.artists,
+                            id: t.id,
+                            name: t.name,
+                            href: t.href,
+                            uri: t.uri
+                        }
+                    })
+                )    
+            }
+        } else {
+            if (response.status == 401) {
+                setErrorMsg("セッション有効時間外です。再ログインしてください。")
+            } else {
+                setErrorMsg(response.errorMsg)
+            }
+        }
+
+        setIsLoading(false);
     }
 
     
@@ -59,6 +73,8 @@ const SearchTrack = () => {
                 <input type="text" value={artist} onChange={(e) => setArtist(e.target.value)} />
                 <button type="submit">Submit</button>
             </form>
+
+            <p>{errorMsg}</p>
 
             <div>
                 {tracks.map((t) => (

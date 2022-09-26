@@ -14,8 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     query += q_track + q_artist + "&type=track";
 
-    const tracks = await spotifyApi.searchItem(query);
-    res.status(200).json({ tracks })
+    const response = await spotifyApi.searchItem(query);
+
+    res.json(response)
 }
 
 export default withIronSessionApiRoute(handler, ironOptions)

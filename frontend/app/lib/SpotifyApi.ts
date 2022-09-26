@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UserInfo } from '../types/userinfo';
+import { SpotifyApiTrack } from '../types/track';
 import { 
   SpotifyPlaylist, CreateSpotifyPlaylistParam, 
   AddItemToSpotifyPlaylistParam 
@@ -36,13 +37,30 @@ export class SpotifyApi {
     }
 
     async searchItem(query: string){
+      let response: {
+        status: number,
+        errorMsg: string,
+        data: SpotifyApiTrack | undefined
+      }
+
       return await axios.get(
         encodeURI(`${this.base_url}/search?${query}`),
         { headers: this.headers }
       ).then((res) => {
-        return res.data.tracks.items;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data.tracks.items
+        };
+        return response;
       }).catch((error) => {
-          return error.response.data;
+        const status_code: number = error.response ? error.response.status : 500;
+        response = {
+          status: status_code,
+          errorMsg: error.message,
+          data: undefined
+        };
+        return response;
       });
     }
 
