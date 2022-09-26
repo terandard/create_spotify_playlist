@@ -41,14 +41,21 @@ export class SpotifyApi {
     }
 
     async getUserInfo() {
+      let response: Response & {data: UserInfo | undefined};
+
       return await axios.get(
         `${this.base_url}/me`,
         { headers: this.headers }
       ).then((res) => {
-        var data: UserInfo = res.data;
-        return data;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data
+        }
+        return response;
       }).catch((error) => {
-        return error.response.data;
+        response = this.makeErrorResponse(error);
+        return response;
       });
     }
 

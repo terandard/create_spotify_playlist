@@ -6,7 +6,8 @@ import Images from "../../components/images";
 import Header from "../../components/header";
 
 type PropsData = {
-    userInfo: UserInfo
+    userInfo: UserInfo,
+    errorMsg: string
 }
 
 export default function ShowUserInfo(props: PropsData) {
@@ -14,6 +15,7 @@ export default function ShowUserInfo(props: PropsData) {
     return (
         <main>
             <Header />
+            <p>{props.errorMsg}</p>
             <h1>Logged in as {user_info.display_name}</h1>
             <div className="media">
                 <div className="pull-left">
@@ -37,17 +39,20 @@ export default function ShowUserInfo(props: PropsData) {
 
 export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
-      const user = req.session.user;
-      const spotifyApi = new SpotifyApi(user.accessToken);
-      const userinfo = await spotifyApi.getUserInfo();
+        const user = req.session.user;
+        const spotifyApi = new SpotifyApi(user.accessToken);
+        const response = await spotifyApi.getUserInfo();
 
-      const props: PropsData = {
-        userInfo: userinfo,
-      }
+        let props: PropsData = {
+            userInfo: response.data,
+            errorMsg: response.errorMsg
+        };
 
-      req.session.user.id = userinfo.id;
-      await req.session.save();
+        if (response.status == 200 ) {
+            req.session.user.id = response.data.id;
+            await req.session.save();
+        }
 
-      return { props: props }
+        return { props: props }
     }, ironOptions
   );
