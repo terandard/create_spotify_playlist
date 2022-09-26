@@ -117,6 +117,8 @@ export class SpotifyApi {
     }
 
     async createUserPlaylist(param: CreateSpotifyPlaylistParam) {
+      let response: Response & {data: SpotifyPlaylist | undefined};
+
       let data = {
         name: param.playlist_name,
         public: param.public,
@@ -128,10 +130,15 @@ export class SpotifyApi {
         data,
         { headers: this.headers }
       ).then((res) => {
-        var playlists: SpotifyPlaylist = res.data;
-        return playlists;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data
+        };
+        return response;
       }).catch((error) => {
-        return error.response.data;
+        response = this.makeErrorResponse(error);
+        return response;
       });
     }
 

@@ -17,8 +17,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         description: req.body.description
     }
 
-    const playlist: SpotifyPlaylist = await spotifyApi.createUserPlaylist(param);
-    res.status(200).json({ playlist })
+    const response = await spotifyApi.createUserPlaylist(param);
+    res.json(response)
 }
 
 export default withIronSessionApiRoute(handler, ironOptions)

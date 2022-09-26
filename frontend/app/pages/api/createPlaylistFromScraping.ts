@@ -19,17 +19,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     let playlist_id: string;
     spotifyApi.createUserPlaylist(create_param)
-    .then((playlist: SpotifyPlaylist) => {
-        console.log(playlist)
-        playlist_id = playlist.id;
+    .then((res) => {
+        if(res.status != 200) throw new Error("createUserPlaylist: " + res.errorMsg);
+        playlist_id = res.data.playlist.id;
         const add_param: AddItemToSpotifyPlaylistParam = {
             playlist_id: playlist_id,
             position: 0,
             uris: req.body.uris
         }
         return spotifyApi.addItemToPlaylist(add_param)
+    }).then((r) => {
+        res.status(200).json({playlist_id: playlist_id})
+    }).catch((e) => {
+        res.status(400)
     })
-    .then((r) => res.status(200).json({playlist_id: playlist_id}))
 
 }
 

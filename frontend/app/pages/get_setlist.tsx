@@ -9,7 +9,8 @@ export default function GetSetlist() {
     const [url, setUrl] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [playlistTitle, setPlaylistTitle] = useState<string>("")
-    const [playlistDescription, setPlaylistDescription] = useState<string>("")    
+    const [playlistDescription, setPlaylistDescription] = useState<string>("")
+    const [createErrorMsg, setCreateErrorMsg] = useState<string>("");
     const router = useRouter();
 
     const fetchItems = async (e: FormEvent<HTMLFormElement>) => {
@@ -51,11 +52,14 @@ export default function GetSetlist() {
             }),
         }
 
-        const response = await fetch('/api/createPlaylistFromScraping', options);
-        const result = await response.json();
-        console.log(result);
+        const response = await fetch('/api/createPlaylistFromScraping', options)
+            .then(res => res.json());
 
-        router.push("/playlist/" + result.playlist_id)
+        if (response.status == 200) {
+            router.push("/playlist/" + response.playlist_id)
+        } else {
+            setCreateErrorMsg(response.errorMsg);
+        }
 
         setIsLoading(false);
     }
@@ -81,6 +85,8 @@ export default function GetSetlist() {
                     <input type="text" value={playlistDescription} onChange={(e) => setPlaylistDescription(e.target.value)} />
                     <button type="submit">Create playlist</button>
                 </form>
+
+                <p>{createErrorMsg}</p>
 
                 {scrapingData?.tracks.map((t, index) => (
                     <p key={index}>{index+1}. {t.name}</p>

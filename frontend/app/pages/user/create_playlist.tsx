@@ -5,6 +5,7 @@ import Router from 'next/router'
 export default function CreatePlaylist() {
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -19,10 +20,14 @@ export default function CreatePlaylist() {
                 description: description
             }),
         }
-        const response = await fetch('/api/create_playlist', options);
-        const result = await response.json();
-        const playlist :SpotifyPlaylist = result.playlist;
-        Router.push("/playlist/" + playlist.id)        
+        const response = await fetch('/api/create_playlist', options)
+            .then(res => res.json());
+        if (response.status == 200) {
+            const playlist :SpotifyPlaylist = response.data;
+            Router.push("/playlist/" + playlist.id)    
+        } else {
+            setErrorMsg(response.errorMsg);
+        }
     }
 
     return (
@@ -34,6 +39,7 @@ export default function CreatePlaylist() {
                 <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
                 <button type="submit">Submit</button>
             </form>
+            <p>{errorMsg}</p>
         </div>
     )
 }
