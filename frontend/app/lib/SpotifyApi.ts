@@ -143,6 +143,8 @@ export class SpotifyApi {
     }
 
     async addItemToPlaylist(param: AddItemToSpotifyPlaylistParam) {
+      let response: Response & {data: string | undefined};
+
       let data = {
         position: param.position,
         uris: param.uris
@@ -152,10 +154,15 @@ export class SpotifyApi {
         data,
         { headers: this.headers }
       ).then((res) => {
-        var snapshot_id: string = res.data;
-        return snapshot_id;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data
+        };
+        return response;
       }).catch((error) => {
-        return error.response.data;
+        response = this.makeErrorResponse(error);
+        return response;
       });
     }
 
