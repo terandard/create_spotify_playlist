@@ -3,7 +3,6 @@ import { ironOptions } from "../../lib/config";
 import { SpotifyApi } from "../../lib/SpotifyApi";
 import { UserInfo } from "../../types/userinfo";
 import Images from "../../components/images";
-import Header from "../../components/header";
 
 type PropsData = {
     userInfo: UserInfo,
@@ -14,7 +13,6 @@ export default function ShowUserInfo(props: PropsData) {
     var user_info: UserInfo = props.userInfo;
     return (
         <main>
-            <Header />
             <p>{props.errorMsg}</p>
             <h1>Logged in as {user_info.display_name}</h1>
             <div className="media">

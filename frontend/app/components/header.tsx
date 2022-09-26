@@ -6,7 +6,6 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const onClick = () => {
-        console.log(isOpen)
         setIsOpen(!isOpen)
     }
 

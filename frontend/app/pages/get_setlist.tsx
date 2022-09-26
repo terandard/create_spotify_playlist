@@ -2,7 +2,6 @@ import React, {useState, FormEvent} from "react";
 import { PlaylistFromScraping } from "../types/playlist";
 import { useRouter } from 'next/router';
 import Loading from '../components/loading';
-import Header from "../components/header";
 
 export default function GetSetlist() {
     const [scrapingData, setScrapingData] = useState<PlaylistFromScraping>();
@@ -66,7 +65,6 @@ export default function GetSetlist() {
 
     return (
         <div>
-            <Header />
             <Loading isLoading={isLoading} />
             <form onSubmit={(e) => fetchItems(e)}>
                 <label>URL : </label>
