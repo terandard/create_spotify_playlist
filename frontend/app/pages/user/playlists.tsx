@@ -7,6 +7,7 @@ import Header from "../../components/header";
 import Link from 'next/link'
 
 type PropsData = {
+    error: { statusCode: number, errorMsg: string },
     userPlaylists: Array<SpotifyPlaylist>
 }
 
@@ -33,14 +34,15 @@ export default function ShowUserPlaylists(props: PropsData) {
 
 export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
-      const user = req.session.user;
-      const spotifyApi = new SpotifyApi(user.accessToken);
-      const user_playlists: Array<SpotifyPlaylist> = await spotifyApi.getUserPlaylists();
+        const user = req.session.user;
+        const spotifyApi = new SpotifyApi(user.accessToken);
+        const res = await spotifyApi.getUserPlaylists();
 
-      const props: PropsData = {
-        userPlaylists: user_playlists
-      }
+        const props: PropsData = {
+            error: {statusCode: res.status, errorMsg: res.errorMsg},
+            userPlaylists: res.data
+        }
 
-      return { props: props }
+        return { props: props }
     }, ironOptions
   );

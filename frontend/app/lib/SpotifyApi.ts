@@ -98,14 +98,21 @@ export class SpotifyApi {
     }
 
     async getUserPlaylists() {
+      let response: Response & {data: Array<SpotifyPlaylist> | undefined};
+
       return await axios.get(
         `${this.base_url}/me/playlists`,
         { headers: this.headers }
       ).then((res) => {
-        var playlists: Array<SpotifyPlaylist> = res.data.items;
-        return playlists;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data.items
+        };
+        return response;
       }).catch((error) => {
-        return error.response.data;
+        response = this.makeErrorResponse(error);
+        return response;
       });
     }
 
