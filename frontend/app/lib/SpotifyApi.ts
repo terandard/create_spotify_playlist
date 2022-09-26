@@ -79,14 +79,21 @@ export class SpotifyApi {
     }
 
     async getPlaylist(playlist_id: string) {
+      let response: Response & {data: SpotifyPlaylist | undefined};
+
       return await axios.get(
         `${this.base_url}/playlists/${playlist_id}`,
         { headers: this.headers }
       ).then((res) => {
-        var data: SpotifyPlaylist = res.data;
-        return data;
+        response = {
+          status: 200,
+          errorMsg: "",
+          data: res.data
+        };
+        return response;
       }).catch((error) => {
-        return error.response.data;
+        response = this.makeErrorResponse(error);
+        return response;
       });
     }
 

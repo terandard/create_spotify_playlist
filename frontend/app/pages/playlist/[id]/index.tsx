@@ -6,6 +6,7 @@ import { SpotifyPlaylist } from '../../../types/playlist';
 import Images from "../../../components/images";
 
 type PropsData = {
+    error: { statusCode: number, errorMsg: string },
     playlist: SpotifyPlaylist
 }
 
@@ -35,10 +36,12 @@ export const getServerSideProps = withIronSessionSsr(
         const user = context.req.session.user;
         const id: string = context.query.id as string
         const spotifyApi = new SpotifyApi(user.accessToken);
-        const playlist: SpotifyPlaylist = await spotifyApi.getPlaylist(id);
+
+        const res = await spotifyApi.getPlaylist(id);
 
         const props: PropsData = {
-            playlist: playlist,
+            error: {statusCode: res.status, errorMsg: res.errorMsg},
+            playlist: res.data,
         }
 
         return { props: props }
