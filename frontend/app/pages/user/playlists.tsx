@@ -6,7 +6,7 @@ import Images from "../../components/images";
 import Link from 'next/link'
 
 type PropsData = {
-    error: { statusCode: number, errorMsg: string },
+    error: { statusCode: number, errorMsg: string } | null,
     userPlaylists: Array<SpotifyPlaylist>
 }
 
@@ -34,12 +34,19 @@ export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
         const user = req.session.user;
         const spotifyApi = new SpotifyApi(user.accessToken);
-        const res = await spotifyApi.getUserPlaylists();
+        const props: PropsData = await spotifyApi.getUserPlaylists()
+            .then((res) => {
+                if (res.status != 200) return {
+                    error: {statusCode: res.status, errorMsg: res.errorMsg},
+                    userPlaylists: res.data
+                };
 
-        const props: PropsData = {
-            error: {statusCode: res.status, errorMsg: res.errorMsg},
-            userPlaylists: res.data
-        }
+                return {
+                    error: null,
+                    userPlaylists: res.data
+                }
+            });
+        console.log(props)
 
         return { props: props }
     }, ironOptions

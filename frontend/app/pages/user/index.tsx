@@ -5,15 +5,14 @@ import { UserInfo } from "../../types/userinfo";
 import Images from "../../components/images";
 
 type PropsData = {
+    error: { statusCode: number, errorMsg: string } | null,
     userInfo: UserInfo,
-    errorMsg: string
 }
 
 export default function ShowUserInfo(props: PropsData) {
     var user_info: UserInfo = props.userInfo;
     return (
         <main>
-            <p>{props.errorMsg}</p>
             <h1>Logged in as {user_info.display_name}</h1>
             <div className="media">
                 <div className="pull-left">
@@ -39,17 +38,21 @@ export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
         const user = req.session.user;
         const spotifyApi = new SpotifyApi(user.accessToken);
-        const response = await spotifyApi.getUserInfo();
+        const props: PropsData = await spotifyApi.getUserInfo()
+            .then((res) => {
+                if(res.status != 200) return {
+                    error: {statusCode: res.status, errorMsg: res.errorMsg},
+                    userInfo: res.data
+                };
 
-        let props: PropsData = {
-            userInfo: response.data,
-            errorMsg: response.errorMsg
-        };
-
-        if (response.status == 200 ) {
-            req.session.user.id = response.data.id;
-            await req.session.save();
-        }
+                req.session.user.id = res.data.id;
+                req.session.save();
+    
+                return {
+                    error: null,
+                    userInfo: res.data
+                }
+            })
 
         return { props: props }
     }, ironOptions

@@ -35,7 +35,7 @@ export class SpotifyApi {
       const response: Response = {
         status: status_code,
         errorMsg: error.message,
-        data: undefined
+        data: null
       };
       return response;
     }
