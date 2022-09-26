@@ -1,10 +1,16 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { UserInfo } from '../types/userinfo';
 import { SpotifyApiTrack } from '../types/track';
 import { 
   SpotifyPlaylist, CreateSpotifyPlaylistParam, 
   AddItemToSpotifyPlaylistParam 
 } from '../types/playlist';
+
+type Response = {
+  status: number,
+  errorMsg: string,
+  data: any
+}
 
 export class SpotifyApi {
 
@@ -24,6 +30,16 @@ export class SpotifyApi {
         };
     }
 
+    makeErrorResponse(error: AxiosError) {
+      const status_code: number = error.response ? error.response.status : 500;
+      const response: Response = {
+        status: status_code,
+        errorMsg: error.message,
+        data: undefined
+      };
+      return response;
+    }
+
     async getUserInfo() {
       return await axios.get(
         `${this.base_url}/me`,
@@ -37,11 +53,7 @@ export class SpotifyApi {
     }
 
     async searchItem(query: string){
-      let response: {
-        status: number,
-        errorMsg: string,
-        data: SpotifyApiTrack | undefined
-      }
+      let response: Response & {data: SpotifyApiTrack | undefined};
 
       return await axios.get(
         encodeURI(`${this.base_url}/search?${query}`),
@@ -54,12 +66,7 @@ export class SpotifyApi {
         };
         return response;
       }).catch((error) => {
-        const status_code: number = error.response ? error.response.status : 500;
-        response = {
-          status: status_code,
-          errorMsg: error.message,
-          data: undefined
-        };
+        response = this.makeErrorResponse(error);
         return response;
       });
     }
