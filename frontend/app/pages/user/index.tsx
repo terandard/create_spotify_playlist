@@ -39,14 +39,14 @@ export const getServerSideProps = withIronSessionSsr(
         const user = req.session.user;
         const spotifyApi = new SpotifyApi(user.accessToken);
         const props: PropsData = await spotifyApi.getUserInfo()
-            .then((res) => {
+            .then(async (res) => {
                 if(res.status != 200) return {
                     error: {statusCode: res.status, errorMsg: res.errorMsg},
                     userInfo: res.data
                 };
 
                 req.session.user.id = res.data.id;
-                req.session.save();
+                await req.session.save();
     
                 return {
                     error: null,
