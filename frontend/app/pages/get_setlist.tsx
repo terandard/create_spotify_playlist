@@ -37,8 +37,6 @@ export default function GetSetlist() {
             return t.uri
         });
 
-        console.log(uris)
-
         const options = {
             method: 'POST',
             headers: {

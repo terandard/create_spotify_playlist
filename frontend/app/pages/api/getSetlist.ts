@@ -21,9 +21,9 @@ const handler =  async (req: NextApiRequest, res: NextApiResponse) => {
   let tracks: Track[] = [];
   for (const t of data.tracks) {
     search_query = "q= " + t + " " + data.artist + "&type=track";
-    let search_result: Array<SpotifyApiTrack> = await spotifyApi.searchItem(search_query);
-    if (!search_result[0]) continue
-    let first_track: Track = pickupTrackFromApi(search_result[0])
+    const search_response = await spotifyApi.searchItem(search_query);
+    if (search_response.status != 200 || !search_response.data[0]) continue
+    let first_track: Track = pickupTrackFromApi(search_response.data[0])
     tracks.push(first_track)
   }
 

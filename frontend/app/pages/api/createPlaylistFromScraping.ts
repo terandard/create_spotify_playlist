@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     spotifyApi.createUserPlaylist(create_param)
     .then((response) => {
         if(response.status != 200) throw new Error("createUserPlaylist: " + response.errorMsg);
-        playlist_id = response.data.playlist.id;
+        playlist_id = response.data.id;
         const add_param: AddItemToSpotifyPlaylistParam = {
             playlist_id: playlist_id,
             position: 0,
@@ -30,9 +30,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return spotifyApi.addItemToPlaylist(add_param)
     }).then((response) => {
         if (response.status != 200) throw new Error("addItemToPlaylist: " + response.errorMsg);
-        res.status(200).json({playlist_id: playlist_id})    
+        const result = {
+            status: 200,
+            errorMsg: "",
+            playlist_id: playlist_id
+        }
+        return res.json(result)    
     }).catch((e) => {
-        res.status(400).json({errorMsg: e.message})
+        const result = {
+            status: 400,
+            errorMsg: e.message,
+            playlist_id: null
+        }
+        return res.json(result)
     })
 
 }
