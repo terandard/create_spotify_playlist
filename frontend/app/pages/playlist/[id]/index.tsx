@@ -4,6 +4,7 @@ import { ironOptions } from "../../../lib/config";
 import { SpotifyApi } from "../../../lib/SpotifyApi";
 import { SpotifyPlaylist } from '../../../types/playlist';
 import Images from "../../../components/images";
+import ShowTrack from "../../../components/tracks";
 
 type PropsData = {
     error: { statusCode: number, errorMsg: string } | null,
@@ -16,15 +17,8 @@ export default function DetailPlaylist({playlist}: PropsData) {
         <main>
             <h2>{playlist.name}</h2>
             <Images images={playlist.images} description={playlist.name} size="large" />
-            {playlist.tracks.items.map((i) => (
-                <div key={i.track.id}>
-                    <p>{i.track.name}</p>
-                    <p>
-                        {i.track.artists.map((a) => (
-                            <span key={a.id}>{a.name}</span>
-                        ))}
-                    </p>
-                </div>
+            {playlist.tracks.items.map((i, index) => (
+                <ShowTrack key={i.track.id} track={i.track} index={(index + 1).toString()} />
             ))}
         </main>
     )

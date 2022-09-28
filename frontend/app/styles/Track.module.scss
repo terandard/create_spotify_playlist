@@ -1,0 +1,28 @@
+.track {
+    &__wrapper {
+        display: flex;
+        padding: 10px;
+    }
+
+    &__index {
+        padding-right: 10px;
+    }
+
+    &__details {
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-content: center;
+        flex-direction: column;
+    }
+
+    &__name {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    &__artist {
+        margin: 0;
+        font-size: 0.8rem;
+    }
+}

@@ -2,6 +2,7 @@ import React, {useState, FormEvent} from "react";
 import { PlaylistFromScraping } from "../types/playlist";
 import { useRouter } from 'next/router';
 import Loading from '../components/loading';
+import ShowTrack from "../components/tracks";
 
 export default function GetSetlist() {
     const [scrapingData, setScrapingData] = useState<PlaylistFromScraping>();
@@ -84,8 +85,8 @@ export default function GetSetlist() {
 
                 <p>{createErrorMsg}</p>
 
-                {scrapingData?.tracks.map((t, index) => (
-                    <p key={index}>{index+1}. {t.name}</p>
+                {scrapingData?.tracks.map((t, i) => (
+                    <ShowTrack key={t.id} track={t} index={(i+1).toString()} />
                 ))}
             </div>
         </div>

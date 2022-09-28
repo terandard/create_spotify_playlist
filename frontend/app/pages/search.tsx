@@ -2,6 +2,7 @@ import React, {useState, FormEvent} from "react";
 import { SpotifyApiTrack, Track } from "../types/track";
 import Images from "../components/images";
 import Loading from "../components/loading";
+import ShowTrack from "../components/tracks";
 
 const SearchTrack = () => {
 
@@ -77,11 +78,8 @@ const SearchTrack = () => {
             <p>{errorMsg}</p>
 
             <div>
-                {tracks.map((t) => (
-                    <div key={t.id}>
-                        <p>{t.name}</p>
-                        <Images images={t.album.images} description={t.album.name} size="small" />
-                    </div>
+                {tracks.map((t, i) => (
+                    <ShowTrack key={t.id} track={t} index={(i+1).toString()} />
                 ))}
             </div>
         </main>
