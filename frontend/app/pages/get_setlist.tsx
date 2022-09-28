@@ -3,6 +3,7 @@ import { PlaylistFromScraping } from "../types/playlist";
 import { useRouter } from 'next/router';
 import Loading from '../components/loading';
 import ShowTrack from "../components/tracks";
+import styles from "../styles/GetSetlist.module.scss"
 
 export default function GetSetlist() {
     const [scrapingData, setScrapingData] = useState<PlaylistFromScraping>();
@@ -65,22 +66,43 @@ export default function GetSetlist() {
     return (
         <div>
             <Loading isLoading={isLoading} />
-            <form onSubmit={(e) => fetchItems(e)}>
-                <label>URL : </label>
-                <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
-                <button type="submit">Submit</button>
+            <form className={styles.create__form} onSubmit={(e) => fetchItems(e)}>
+                <a className={styles.create__link} href='https://www.livefans.jp/'>livefans</a>
+                でセットリストページのURLを取得してください
+                <p className={styles.create__label}>
+                    セットリストURL（event/○○○○○○）
+                </p>
+                <input 
+                    className={styles.create__input}
+                    type="text" 
+                    value={url} 
+                    onChange={(e) => setUrl(e.target.value)} />
+                <div className={styles['create__button--wrapper']}>
+                    <button className={styles.create__button} type="submit">
+                        Submit
+                    </button>
+                </div>
             </form>
 
-            <div>
-                <p>Event title : {scrapingData?.event_title}</p>
-                <p>Event subtitle : {scrapingData?.event_subtitle}</p>
-
-                <form onSubmit={(e) => createPlaylist(e)}>
-                    <label>Playlist title</label>
-                    <input type="text" value={playlistTitle} onChange={(e) => setPlaylistTitle(e.target.value)} />
-                    <label>Playlist description</label>
-                    <input type="text" value={playlistDescription} onChange={(e) => setPlaylistDescription(e.target.value)} />
-                    <button type="submit">Create playlist</button>
+            <div className={`${styles.create} ${!scrapingData ? styles.create__hidden : ''}`}>
+                <form className={styles.create__form} onSubmit={(e) => createPlaylist(e)}>
+                    <p className={styles.create__label}>プレイリスト名</p>
+                    <input 
+                        className={styles.create__input} 
+                        type="text" 
+                        value={playlistTitle} 
+                        onChange={(e) => setPlaylistTitle(e.target.value)} />
+                    <p className={styles.create__label}>プレイリスト説明文</p>
+                    <input
+                        className={styles.create__input} 
+                        type="text" 
+                        value={playlistDescription} 
+                        onChange={(e) => setPlaylistDescription(e.target.value)} />
+                    <div className={styles['create__button--wrapper']}>
+                        <button className={styles.create__button} type="submit">
+                            プレイリスト作成！
+                        </button>
+                    </div>
                 </form>
 
                 <p>{createErrorMsg}</p>
