@@ -12,6 +12,7 @@ class Playlist
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--blink-settings=imageEnabled=false')
 
         driver = Selenium::WebDriver.for :chrome, options: options
         driver.get(@url)
