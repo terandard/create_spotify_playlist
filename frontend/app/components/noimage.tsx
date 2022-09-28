@@ -1,8 +1,13 @@
 import Image from "next/image";
 
-const NoImage = () => {
+type Props = {
+    size: "small" | "large"
+}
+
+const NoImage = ({size}: Props) => {
+    const size_number = size == "small" ? 64 : 300;
     return (
-        <Image src="/noimage.jpg" width={640} height={640} alt="no image" />
+        <Image src="/noimage.jpg" width={size_number} height={size_number} alt="no image" />
     )
 }
 

@@ -80,7 +80,7 @@ const SearchTrack = () => {
                 {tracks.map((t) => (
                     <div key={t.id}>
                         <p>{t.name}</p>
-                        <Images images={t.album.images} description={t.album.name} />
+                        <Images images={t.album.images} description={t.album.name} size="small" />
                     </div>
                 ))}
             </div>

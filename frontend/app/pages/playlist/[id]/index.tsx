@@ -15,7 +15,7 @@ export default function DetailPlaylist({playlist}: PropsData) {
     return (
         <main>
             <h2>{playlist.name}</h2>
-            <Images images={playlist.images} description={playlist.name}/>
+            <Images images={playlist.images} description={playlist.name} size="large" />
             {playlist.tracks.items.map((i) => (
                 <div key={i.track.id}>
                     <p>{i.track.name}</p>

@@ -4,13 +4,15 @@ import { SpotifyImage } from "../types/image";
 
 type Props = {
     images: Array<SpotifyImage>,
-    description: string
+    description: string,
+    size: "small" | "large"
 }
 
-export default function Images({images, description}: Props) {
+export default function Images({images, description, size}: Props) {
     let has_image: boolean = images.length > 0;
     if (has_image) {
-        let img: SpotifyImage = images[0]
+        const index = size == "small" ? 2 : 1; 
+        let img: SpotifyImage = images[index]
         return (
             <Image 
                 src={img.url} 
@@ -20,6 +22,6 @@ export default function Images({images, description}: Props) {
         )
 
     } else {
-        return <NoImage />
+        return <NoImage size={size} />
     }
 }

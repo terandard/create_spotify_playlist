@@ -16,7 +16,7 @@ export default function ShowUserInfo(props: PropsData) {
             <h1>Logged in as {user_info.display_name}</h1>
             <div className="media">
                 <div className="pull-left">
-                    <Images images={user_info.images} description={user_info.display_name}/>
+                    <Images images={user_info.images} description={user_info.display_name} size="large" />
                 </div>
                 <div className="media-body">
                     <dl className="dl-horizontal">

@@ -20,7 +20,7 @@ export default function ShowUserPlaylists(props: PropsData) {
                         <Link href={"/playlist/"+p.id}>
                             {p.name}
                         </Link>
-                        <Images images={p.images} description={p.name}/>
+                        <Images images={p.images} description={p.name} size="large" />
                     </div>
                 ))}
 
