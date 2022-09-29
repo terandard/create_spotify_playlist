@@ -1,0 +1,14 @@
+.playlist {
+    &__wrapper {
+        padding: 0 15px;
+    }
+
+    &__image {
+        &--wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+    }
+}
