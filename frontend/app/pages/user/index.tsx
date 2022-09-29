@@ -2,35 +2,43 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "../../lib/config";
 import { SpotifyApi } from "../../lib/SpotifyApi";
 import { UserInfo } from "../../types/userinfo";
+import { useRouter } from 'next/router';
 import Images from "../../components/images";
+import styles from "../../styles/User.module.scss";
 
 type PropsData = {
     error: { statusCode: number, errorMsg: string } | null,
     userInfo: UserInfo,
 }
 
-export default function ShowUserInfo(props: PropsData) {
-    var user_info: UserInfo = props.userInfo;
+export default function ShowUserInfo({userInfo}: PropsData) {
+    const router = useRouter();
+
+    const movePlaylist = () => {
+        router.push("/user/playlists")
+    }
+
+    const moveCreate = () => {
+        router.push("/get_setlist")
+    }
+
     return (
-        <main>
-            <h1>Logged in as {user_info.display_name}</h1>
-            <div className="media">
-                <div className="pull-left">
-                    <Images images={user_info.images} description={user_info.display_name} size="large" />
-                </div>
-                <div className="media-body">
-                    <dl className="dl-horizontal">
-                        <dt>Display name</dt><dd className="clearfix">{user_info.display_name}</dd>
-                        <dt>Id</dt><dd>{user_info.id}</dd>
-                        <dt>Email</dt><dd>{user_info.email}</dd>
-                        <dt>Spotify URI</dt><dd><a href="{external_urls.spotify}">{user_info.external_urls.spotify}</a></dd>
-                        <dt>Link</dt><dd><a href="{{href}}">{user_info.href}</a></dd>
-                        <dt>Profile Image</dt><dd className="clearfix"><a href="{{images.0.url}}"></a></dd>
-                        <dt>Country</dt><dd>{user_info.country}</dd>
-                    </dl>
-                </div>
+        <div>
+            <h1>Logged in as {userInfo.display_name}</h1>
+            <div className={styles.user__wrapper}>
+                <Images images={userInfo.images} description={userInfo.display_name} size="large" />
+                <button
+                    onClick={() => movePlaylist()} 
+                    className={`${styles.user__button} ${styles.user__playlist}`}>
+                    プレイリスト一覧
+                </button>
+                <button
+                    onClick={() => moveCreate()} 
+                    className={`${styles.user__button} ${styles.user__create}`}>
+                    プレイリスト作成
+                </button>
             </div>
-        </main>
+        </div>
     )
 }
 

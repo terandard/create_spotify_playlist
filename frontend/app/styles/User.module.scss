@@ -1,0 +1,35 @@
+.user {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__button {
+        margin: 10px;
+        width: 250px;
+        height: 60px;
+        font-size: 1.3rem;
+        border: none;
+        border-radius: 500px;
+        font-weight: 700;
+    }
+
+    &__playlist {
+        color: #fff;
+        background-color: #eb6100;
+
+        &:hover {
+            background: #f56500;
+        }
+    }
+
+    &__create {
+        color: #fff;
+        background-color: #094;
+
+        &:hover {
+            background: #00a349;
+        }
+    }
+}
