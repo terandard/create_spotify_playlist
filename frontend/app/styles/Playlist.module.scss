@@ -1,6 +1,8 @@
 .playlist {
     &__wrapper {
-        padding: 0 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
     }
 
     &__image {
@@ -11,4 +13,17 @@
             padding-bottom: 20px;
         }
     }
+
+    &__item {
+        &--wrapper {
+            max-width: 300px;
+            margin: 0 20px;
+        }
+
+        &--title {
+            margin: 0;
+            padding-bottom: 20px;
+        }
+    }
+
 }

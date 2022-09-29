@@ -15,7 +15,7 @@ type PropsData = {
 export default function DetailPlaylist({playlist}: PropsData) {
 
     return (
-        <div className={styles.playlist__wrapper}>
+        <div>
             <h2>{playlist.name}</h2>
             <div className={styles['playlist__image--wrapper']}>
                 <Images images={playlist.images} description={playlist.name} size="large" />
