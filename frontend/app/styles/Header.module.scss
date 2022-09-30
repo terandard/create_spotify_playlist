@@ -1,6 +1,6 @@
 .brand {
-  font-weight: bold;
-  font-size: 20px; 
+  font-size: 20px;
+  padding-left: 10px;
 }
   
 .header {
@@ -18,9 +18,13 @@
     display: none;
   }
 
-  &__item a {
-    display: block;
-    padding: 1rem;  
+  &__item {
+    padding: 1rem;
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -52,6 +56,7 @@
       opacity: 0;
       transform: translateY(-100%);
       transition: 0.5s;
+      padding: 0;
   
       &.active {
         visibility: visible;
@@ -59,6 +64,10 @@
         transform: translateY(0);
         z-index: 100;
       }
+    }
+
+    &__item {
+      border-bottom: 1px solid;
     }
 
     &__toggle {
