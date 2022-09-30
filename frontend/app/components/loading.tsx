@@ -15,6 +15,7 @@ const Loading = ({isLoading}: Props) => {
                 position: 'fixed',
                 top: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                'z-index': 1000,
             }}>
                 <Box sx={{
                     display: 'flex',
@@ -23,7 +24,7 @@ const Loading = ({isLoading}: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <CircularProgress />
+                    <CircularProgress style={{'color': '#1ed760'}} />
                 </Box>
             </Box>
         )
