@@ -6,7 +6,7 @@ module Api
     def index
       # e.g. params[:url] = events/1420946
       playlist = Playlist.new(params[:url])
-      render json: { status: playlist.get_status, data: playlist.to_json }
+      render json: { status: playlist.status, data: playlist.to_json }
     end
 
     def check_param

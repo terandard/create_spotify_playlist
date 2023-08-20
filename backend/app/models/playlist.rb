@@ -56,7 +56,5 @@ class Playlist
     }
   end
 
-  def get_status
-    @status
-  end
+  attr_reader :status
 end
